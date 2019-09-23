@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <title>SuperPerson Sighting</title>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="row m-4">
+                <div class="col text-center border border-dark">
+                    <h1><a href="/" class="text-dark">SuperPerson Sighting</a></h1>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <!-- th$ - means that is doing java code with tymeleaf, use binding result--->
+                <div class="col text-center m-3">
+                    <a href="superPersons" class="btn btn-outline-primary btn-lg">Superperson</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="superPowers" class="btn btn-outline-primary btn-lg">Superpowers</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="orgs" class="btn btn-outline-primary btn-lg">Organizations</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-4 border border-dark">
+
+            <div class="col-3 text-center m-3">
+                <span class="h3">Add Organization</span>
+            </div>
+            <div class="col-7 text-center m-3">
+                <form action="addOrgs" method="POST">
+                    <div class="form-group row">
+                        <label for="Name" class="col-3 col-form-label">
+                            Name</label>
+                        <div class="col-9">
+                            <input type="text" name="Name" id="Name" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Description" class="col-3 col-form-label">
+                            Description</label>
+                        <div class="col-9">
+                            <input type="text" name="Description" id="Description" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ContactInfo" class="col-3 col-form-label">
+                            ContactInfo</label>
+                        <div class="col-9">
+                            <input type="text" name="ContactInfo" id="ContactInfo" class="form-control" />
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                            <label for="Location" class="col-3 col-form-label">
+                                Location</label>
+                            <div class="col-9">
+                                <select id="Location" name="LocationId" class="form-control" >
+                                    <option th:each="location : ${locations}"
+                                            th:value="${location.locationId}"
+                                            th:text="${location.name}">
+                                        Location Info</option>
+                                </select>
+                            </div>
+                            </div>
+                    <div class="form-group row">
+                        <label for="SuperPerson" class="col-3 col-form-label">
+                            Members</label>
+                        <div class="col-9">
+                            <select multiple id="SuperPerson" name="SuperPersonId"
+                                class="form-control" >
+                                <option
+                                    th:each="superPerson: ${superPersons}"
+                                    th:value="${superPerson.superPersonId}"
+                                    th:text="${superPerson.name}">
+                                    SuperPerson</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Organization</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row m-4 border border-dark">
+            <div class="col text-center m-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>ContactInfo</th>
+                            <th>Location</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="org :${orgs}">  <!--this is tymeleaf-->
+                            <td th:text="${org.orgId}" >Org ID</td>
+                            <td th:text ="${org.name}">Org Name</td>
+                            <td th:text ="${org.description}" >Org Description</td>
+                            <td th:text="${org.contactInfo}">Org ContactInfo</td>
+                            <td th:text="${org.location.name}" >Location Name</td>
+                            <td><a href="#" th:href="@{/editOrg(OrgId=${org.OrgId})}">Edit</a></td>
+                            <td><a href="#" th:href="@{/deleteOrg(OrgId=${org.OrgId})}">Delete</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
