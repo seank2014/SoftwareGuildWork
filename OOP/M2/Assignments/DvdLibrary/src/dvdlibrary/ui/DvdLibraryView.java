@@ -33,11 +33,13 @@ public class DvdLibraryView {
 
     public Dvd getNewDvdInfo() {
         String title = io.readString("Please enter movie title");
+       String director = io.readString("Please enter movie's director");
         String releaseDate = io.readString("Please enter release date");
         String mpaaRating = io.readString("Please enter MPAA rating");
         String studio = io.readString("Enter movie studio");
         String userComments = io.readString("Enter any additional notes about the movie");
         Dvd currentDvd = new Dvd(title);
+        currentDvd.setDirector(director);
         currentDvd.setReleaseDate(releaseDate);
         currentDvd.setMpaaRating(mpaaRating);
         currentDvd.setStudio(studio);
@@ -55,11 +57,12 @@ public class DvdLibraryView {
 
     public void displayDvdList(List<Dvd> dvdList) {
         for (Dvd currentDvd : dvdList) {
-            io.print(currentDvd.getTitle() + " "
-                    + currentDvd.getReleaseDate() + ": "
-                    + currentDvd.getMpaaRating() + " "
-                    + currentDvd.getStudio() + ": "
-                    + currentDvd.getUserComments());
+            io.print(currentDvd.getTitle() + " : "
+                    + currentDvd.getDirector() + ", "
+                    + currentDvd.getReleaseDate() + ", "
+                    + currentDvd.getMpaaRating() + ", "
+                    + currentDvd.getStudio() + ", "
+                    + " ' " + currentDvd.getUserComments() + " ' ");
 
         }
         io.readString("Please hit enter to continue");
@@ -79,16 +82,20 @@ public class DvdLibraryView {
     }
 
     public void displayDvd(Dvd dvd) {
-        if (dvd != null) {
+        
+          if (dvd != null){ 
             io.print(dvd.getTitle());
-            io.print(dvd.getReleaseDate() + " " + dvd.getMpaaRating() + " " + dvd.getStudio() + " " + dvd.getUserComments());
+            io.print(dvd.getReleaseDate() + ": " + dvd.getDirector() + ", " + dvd.getMpaaRating() + ", " + dvd.getStudio() + ", " + " ' " + dvd.getUserComments() + " ' ");
             io.print("");
-        } else {
-            io.print("Did not find movie in libreary. Please try again.");
+         } else{
+                   io.print("Nothing was found in our records. Please try again.");
 
-        }
-        io.readString("Please hit enter to continue.");
-    }
+            }
+        
+                      io.readString("Please hit enter to continue.");
+
+        }   
+        
 
     public void displayRemoveDvdBanner() {
         io.print("=== Remove Dvd ===");

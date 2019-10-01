@@ -1,1 +1,1 @@
-1dvd::adate::arating::studio::none
+movie::director::a date::stars::universal:: 

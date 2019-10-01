@@ -12,6 +12,7 @@ package dvdlibrary.dto;
 public class Dvd {
 
     private String title;
+    private String director;
     private String releaseDate;
     private String mpaaRating;
     private String studio;
@@ -20,6 +21,19 @@ public class Dvd {
     public Dvd(String title) {
         this.title = title;
     }
+    
+     public String getTitle() {
+        return title;
+    }
+     
+     public String getDirector(){
+        return director;
+    }
+    
+    public void setDirector(String director){
+        this.director = director;
+    }
+
 
     public String getReleaseDate() {
         return releaseDate;
@@ -51,10 +65,6 @@ public class Dvd {
 
     public void setUserComments(String userComments) {
         this.userComments = userComments;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
 }

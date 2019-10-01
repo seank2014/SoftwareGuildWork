@@ -78,10 +78,11 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);
             Dvd currentDvd = new Dvd(currentTokens[0]);
-            currentDvd.setReleaseDate(currentTokens[1]);
-            currentDvd.setMpaaRating(currentTokens[2]);
-            currentDvd.setStudio(currentTokens[3]);
-            currentDvd.setUserComments(currentTokens[4]);
+            currentDvd.setDirector(currentTokens[1]);
+            currentDvd.setReleaseDate(currentTokens[2]);
+            currentDvd.setMpaaRating(currentTokens[3]);
+            currentDvd.setStudio(currentTokens[4]);
+            currentDvd.setUserComments(currentTokens[5]);
             dvds.put(currentDvd.getTitle(), currentDvd);
         }
         scanner.close();
@@ -98,6 +99,7 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
         List<Dvd> dvdList = this.getAllDvds();
         for (Dvd currentDvd : dvdList) {
             out.println(currentDvd.getTitle() + DELIMITER
+                    + currentDvd.getDirector()+ DELIMITER 
                     + currentDvd.getReleaseDate() + DELIMITER
                     + currentDvd.getMpaaRating() + DELIMITER
                     + currentDvd.getStudio() + DELIMITER
