@@ -28,6 +28,10 @@ public class App {
 
     /**
      * @param args the command line arguments
+     * @throws vendingmachine.service.VendingMachineInsufficientFundsException
+     * @throws vendingmachine.service.VendingMachineInvalidEntryException
+     * @throws vendingmachine.service.VendingMachineItemOutOfStockException
+     * @throws vendingmachine.dao.VendingMachinePersistenceException
      */
     public static void main(String[] args) throws VendingMachineInsufficientFundsException,
        VendingMachineInvalidEntryException, VendingMachineItemOutOfStockException,
@@ -37,7 +41,7 @@ public class App {
         VendingMachineView myView = new VendingMachineView(myIo);
         VendingMachineDao myDao = new VendingMachineDaoFileImpl();
         VendingMachineAuditDao myAuditDao = new VendingMachineAuditDaoFileImpl();
-        VendingMachineServiceLayer myService =new VendingMachineServiceLayerImpl(myDao);
+        VendingMachineServiceLayer myService =new VendingMachineServiceLayerImpl(myDao, myAuditDao);
        VendingMachineController controller = new VendingMachineController(myService, myView);
        controller.run();
         

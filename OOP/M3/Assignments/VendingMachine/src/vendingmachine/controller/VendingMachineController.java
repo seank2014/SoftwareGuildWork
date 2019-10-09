@@ -5,7 +5,11 @@
  */
 package vendingmachine.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
 import vendingmachine.dao.VendingMachinePersistenceException;
+import vendingmachine.dto.Change;
+import vendingmachine.dto.Item;
 import vendingmachine.service.VendingMachineInsufficientFundsException;
 import vendingmachine.service.VendingMachineInvalidEntryException;
 import vendingmachine.service.VendingMachineItemOutOfStockException;
@@ -26,41 +30,66 @@ public class VendingMachineController {
         this.view = view;
     }
 
-    public void run() {
+    public void run() throws VendingMachineInvalidEntryException{
         boolean keepGoing = true;
         int menuSelection = 0;
-        try {
+      try {
             while (keepGoing) {
 
                 menuSelection = getMenuSelection();
-
-                if (menuSelection == 1) {
-                    keepGoing = false;
-                } else if (menuSelection == 2 || menuSelection == 3 || menuSelection == 4 || menuSelection == 5) {
-                    service.selectItem(menuSelection);
-                } else {
-                    unknownCommand();
+                
+                switch(menuSelection){
+                    case 1:
+                        selectItem();
+                        break;
+                    case 2:
+                        keepGoing = false;
+                        break;
+                    default:
+                         unknownCommand();   
                 }
-
             }
+            
             exitMessage();
-        } catch (VendingMachinePersistenceException |VendingMachineInvalidEntryException| VendingMachineInsufficientFundsException |
-            VendingMachineItemOutOfStockException e) {
-            view.displayErrorMessage(e.getMessage());
+                } catch (VendingMachinePersistenceException | VendingMachineItemOutOfStockException | VendingMachineInsufficientFundsException|VendingMachineInvalidEntryException e) {
+           view.displayErrorMessage(e.getMessage());
         }
 
-    }
+  }
 
-    private int getMenuSelection() {
-        return view.printMenuAndGetSelection();
+    private int getMenuSelection() throws VendingMachinePersistenceException {
+        try{
+        showSelection();
+        return view.MainMenu();
+        }catch(NumberFormatException e){
+            e.getMessage();
+            return 0;
+        }
+    }
+    
+    private void showSelection() throws VendingMachinePersistenceException{
+        List<Item> itemList = service.getAllItems();
+        view.showSelection(itemList);
+        
+    }
+    
+    private void selectItem() throws VendingMachinePersistenceException, VendingMachineItemOutOfStockException,
+        VendingMachineInsufficientFundsException, VendingMachineInvalidEntryException{   
+         try{  
+        BigDecimal input = view.GetMoney();
+        service.depositMoney(input);
+        List<Item> itemList = service.getAllItems();
+        int anotherInput = view.printItemMenuAndGetSelection(itemList);
+       Change returnChange = service.purchaseItem(anotherInput, input);
+      view.showChange(returnChange);  
+         }catch(NumberFormatException e){
+             view.displayErrorMessage(e.getMessage());
+             
+         }
+             
     }
     
     
-    //selectitem
-    //confirm item selected
-    //show change amount and type of change
-    //ask if they want to purchase another item
-     
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
     }

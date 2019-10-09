@@ -18,7 +18,7 @@ import vendingmachine.dto.Item;
 public interface VendingMachineServiceLayer {
     
     
-    void selectItem(int itemId) throws
+    Item selectItem(int itemId) throws
             VendingMachineInsufficientFundsException,
             VendingMachineInvalidEntryException,
             VendingMachineItemOutOfStockException,
@@ -28,20 +28,15 @@ public interface VendingMachineServiceLayer {
             VendingMachinePersistenceException;
     
     
-    void depositMoney(BigDecimal bigdecimal) throws
-            VendingMachinePersistenceException;//Maybe I should give this another name
-    
-    public Change returnChange() throws
+    void depositMoney(BigDecimal balance) throws
             VendingMachinePersistenceException;
     
-    public void purchaseItem(int itemId)throws
+    public Change purchaseItem(int itemId, BigDecimal balance)throws
             VendingMachinePersistenceException, VendingMachineItemOutOfStockException,
-           VendingMachineInsufficientFundsException;
+           VendingMachineInsufficientFundsException, VendingMachineInvalidEntryException;
     
-    public BigDecimal getBalance() throws
-            VendingMachinePersistenceException;
-    
-    public Item deleteItem(String itemId)
+  
+    public void updateItem(int itemId)
             throws VendingMachinePersistenceException;
 }
 

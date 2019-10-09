@@ -7,7 +7,6 @@ package vendingmachine.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import static java.math.RoundingMode.FLOOR;
 import java.util.List;
 import vendingmachine.dao.VendingMachineAuditDao;
 import vendingmachine.dao.VendingMachineDao;
@@ -21,24 +20,23 @@ import vendingmachine.dto.Item;
  */
 public class VendingMachineServiceLayerImpl implements VendingMachineServiceLayer {
 
-    BigDecimal balance;
     VendingMachineDao dao;
     private VendingMachineAuditDao auditDao;
     Change change;
 
-    public VendingMachineServiceLayerImpl(VendingMachineDao dao) {
+    public VendingMachineServiceLayerImpl(VendingMachineDao dao, VendingMachineAuditDao auditDao) {
         this.dao = dao;
         this.auditDao = auditDao;
     }
 
     @Override
-    public void selectItem(int itemId)
+    public Item selectItem(int itemId)
             throws VendingMachineInsufficientFundsException,
             VendingMachineInvalidEntryException,
             VendingMachineItemOutOfStockException,
             VendingMachinePersistenceException {
 
-        dao.getItemById(itemId);
+       return dao.getItemById(itemId);
 
     }
 
@@ -48,33 +46,33 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
         return dao.getAllItems();
     }
 
-    //cant change to private
     @Override
-    public void depositMoney(BigDecimal bigdecimal)
+    public void depositMoney(BigDecimal balance)
             throws VendingMachinePersistenceException {
-        balance = bigdecimal.setScale(2, RoundingMode.HALF_UP);
+        balance.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
-    public Change returnChange()
-            throws VendingMachinePersistenceException {
-
-        return change;
-    }
-
-    @Override
-    public void purchaseItem(int itemId)
-            throws VendingMachinePersistenceException, VendingMachineItemOutOfStockException, VendingMachineInsufficientFundsException {
-        Item item = dao.getItemById(itemId);
+    public Change purchaseItem(int itemId, BigDecimal balance)
+            throws VendingMachinePersistenceException, VendingMachineItemOutOfStockException, VendingMachineInsufficientFundsException,
+            VendingMachineInvalidEntryException {
+        
+                Item item = selectItem(itemId);
+                
+                if(item == null){
+                    throw new VendingMachineInvalidEntryException("Item number doesn't exist");
+                }
 
         if (item.getQty() <= 0) {
             throw new VendingMachineItemOutOfStockException("Item out of stock");
         } else if (item.getQty() > 0) {
             if (balance.compareTo(item.getPrice()) == -1) {
-                throw new VendingMachineInsufficientFundsException("Sorry, you do not have enough money, please select something else");
+                throw new VendingMachineInsufficientFundsException("Sorry, you do not have enough money. You gave " +"$"+ balance);
 
             } else {
-                dao.updateItem(itemId);
+               balance = balance.subtract(item.getPrice());
+
+                updateItem(itemId);
                 change = new Change();
 
                 if (balance.compareTo(new BigDecimal(".25")) != -1) {
@@ -102,21 +100,21 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
 
                 }
             }
-
+            
         }
+        
+        auditDao.writeAuditEntry(item.getName() + " purchased");
+        
+        return change;
 
-    }
+     }
+
+    
 
     @Override
-    public BigDecimal getBalance()
-            throws VendingMachinePersistenceException {
-        return balance;
-    }
-
-    @Override
-    public Item deleteItem(String itemId
+    public void updateItem(int itemId
     ) throws VendingMachinePersistenceException {
-        return dao.deleteItem(itemId);
+        dao.updateItem(itemId);
     }
 
 }

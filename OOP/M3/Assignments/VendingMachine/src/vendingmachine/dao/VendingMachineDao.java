@@ -13,6 +13,9 @@ import vendingmachine.dto.Item;
  * @author seanking
  */
 public interface VendingMachineDao {
+   
+    Item addItem(int itemId, Item item) 
+            throws VendingMachinePersistenceException; 
     
     List<Item>getAllItems()
             throws VendingMachinePersistenceException;
@@ -23,7 +26,7 @@ public interface VendingMachineDao {
     void updateItem(int itemId)
             throws VendingMachinePersistenceException;
     
-    Item deleteItem(String name)
+    Item deleteItem(int itemId)
             throws VendingMachinePersistenceException;
     
     //Should I put change in DAO?

@@ -18,13 +18,13 @@ public class Item {
     private int qty;
     private BigDecimal price;
 
+   public Item(int itemId){
+        this.itemId = itemId;
+    }
     public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
 
     public String getName() {
         return name;

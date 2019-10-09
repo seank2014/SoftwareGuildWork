@@ -6,6 +6,9 @@
 package vendingmachine.ui;
 
 import java.math.BigDecimal;
+import java.util.List;
+import vendingmachine.dto.Change;
+import vendingmachine.dto.Item;
 
 /**
  *
@@ -19,24 +22,57 @@ public class VendingMachineView {
         this.io = io;
     }
     
-    public int printMenuAndGetSelection(){
+     public int MainMenu(){
+        io.print("Welcome! Please see the items we have available above  \n");
+        io.print("1. Make a selection");
+        io.print("2. Exit");
         
-         io.print("Welcome");
-            io.print("1. Exit");
-            io.print("2. Snickers - $1.25");
-            io.print("3. Twix - $1.25");
-            io.print("4. Coke - $1.00");
-            io.print("5. Ice Tea - $1.00");
- 
-            return promptUser().intValue();
+        return io.readInt("Please enter the number of the choices available", 1, 2);
+        
     }
-
-       
-     public BigDecimal promptUser(){
-            String input = io.readString("Please enter Money to purchase an item");
-           return new BigDecimal(input);    
-     } 
      
+       public BigDecimal GetMoney(){
+                     
+           return io.readBigDecimal("Please enter Money to purchase an item");  
+
+                    
+     } 
+    
+
+       public int printItemMenuAndGetSelection(List<Item>itemList){
+           for(Item item : itemList){
+               if(item.getQty() > 0){
+                   io.print(item.getItemId() + ". " + item.getName() + "-" + item.getPrice());
+               }else {
+                   io.print(item.getItemId() + ". SOLDOUT" );
+               }
+           }
+           
+           return io.readInt("Please select numbered Item you would like ", 1, 6);
+           
+       }
+    
+      public void showSelection(List<Item> itemList){
+          
+        for(Item currentItem : itemList){
+            if(currentItem.getQty() > 0){
+            io.print( currentItem.getName() + " - " +  currentItem.getPrice());
+            }
+        }
+        io.print("");
+    }
+      
+      public void showChange(Change change){
+          io.print("Thank you! Please take your change");
+          io.print(change.getQuarter() + " Quarters");
+          io.print(change.getDime() + " Dimes");
+          io.print(change.getNickel() + " Nickels");
+          io.print(change.getPennies() + " Pennies");
+          
+          io.readString("Press enter to return to main menu");
+
+      }
+    
      public void ItemSelectedBanner(){
          io.print("Your item has been selected");
      }

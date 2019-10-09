@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vendingmachine.ui;
+package dvdlibrary.ui;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
@@ -13,18 +13,12 @@ import java.util.Scanner;
  * @author seanking
  */
 public class UserIOConsoleImpl implements UserIO {
-    
+
     Scanner myScanner = new Scanner(System.in);
 
-     
-     
-     
-
-    @Override// bug in code, where loop will only execute twice
+    @Override
     public void print(String message) {
-       System.out.println(message);
-    
-
+        System.out.println(message);
     }
 
     @Override
@@ -33,7 +27,6 @@ public class UserIOConsoleImpl implements UserIO {
         String input = myScanner.nextLine();
         double doubleVal = Double.parseDouble(input);
         return doubleVal;
-
     }
 
     @Override
@@ -41,21 +34,13 @@ public class UserIOConsoleImpl implements UserIO {
         System.out.println(prompt);
         min = 1;
         max = 100;
-   String input = myScanner.nextLine();
-       Double doubleInput = Double.parseDouble(input);
-        
-        while(doubleInput < 1 || doubleInput > 100){
-            
-            doubleInput = 1.0;
-            
+        String input = myScanner.nextLine();
+        Double doubleInput = Double.parseDouble(input);
+
+        while (doubleInput < 1 || doubleInput > 100) {
             System.out.println(prompt);
-            myScanner.nextLine();
-
-         
-        } 
-            
-
-        
+            doubleInput = Double.parseDouble(myScanner.nextLine());
+        }
         return doubleInput;
     }
 
@@ -64,108 +49,111 @@ public class UserIOConsoleImpl implements UserIO {
         System.out.println(prompt);
         String input = myScanner.nextLine();
         Float floatVal = Float.parseFloat(input);
-        
+
         return floatVal;
-        
     }
 
     @Override
     public float readFloat(String prompt, float min, float max) {
         System.out.println(prompt);
-        min =1;
+        min = 1;
         max = 100;
         String input = myScanner.nextLine();
         Float floatVal = Float.parseFloat(input);
-        
-        while(floatVal < min || floatVal > max){
-            floatVal = 1f;
+
+        while (floatVal < min || floatVal > max) {
             System.out.println(prompt);
-            myScanner.nextLine();
+            floatVal = Float.parseFloat(myScanner.nextLine());
         }
         return floatVal;
     }
 
     @Override
     public int readInt(String prompt) {
-            System.out.println(prompt);
-            String input = myScanner.nextLine();
-            int intInput = Integer.parseInt(input);
-            
-            return intInput;
+        System.out.println(prompt);
+        String input = myScanner.nextLine();
+        int intInput = Integer.parseInt(input);
 
-
+        return intInput;
     }
 
     @Override
     public int readInt(String prompt, int min, int max) {
+        System.out.println(prompt);
+        min = 1;
+        max = 100;
+        String input = myScanner.nextLine();
+        int intValue = Integer.parseInt(input);
+
+        while (intValue < 1 || intValue > 100) {
+
             System.out.println(prompt);
-            min = 1;
-            max = 100;
-        
-            String input = myScanner.nextLine();
-            int intValue = Integer.parseInt(input);
-            
-            while(intValue < 1 || intValue > 100){
-                
-                System.out.println(prompt);
-                myScanner.nextLine();
-                intValue = 1;
+            intValue = Integer.parseInt(myScanner.nextLine());
+        }
 
-            }
-                        return intValue;
-
-            }
-           
+        return intValue;
+    }
 
     @Override
     public long readLong(String prompt) {
         System.out.println(prompt);
         String input = myScanner.nextLine();
         long longInput = Long.parseLong(input);
-        
-        return longInput;
 
+        return longInput;
     }
 
     @Override
     public long readLong(String prompt, long min, long max) {
         System.out.println(prompt);
-        String input =myScanner.nextLine();
-        min =1;
-        max =100;
+        String input = myScanner.nextLine();
+        min = 1;
+        max = 100;
         long longVal = Long.parseLong(input);
-        
-        while (longVal < 1 || longVal > 100){
-            longVal = 1;
-            
+
+        while (longVal < 1 || longVal > 100) {
             System.out.println(prompt);
-            myScanner.nextLine();
-            
+            longVal = Long.parseLong(myScanner.nextLine());
+
         }
-        
+
         return longVal;
-        
     }
+    
+    
+    @Override
+    public LocalDate readLocalDate(String prompt) {
+        System.out.println(prompt);
+        String input = myScanner.nextLine();
+        LocalDate date = LocalDate.parse(input);
+
+        return date;
+    }
+
+    @Override
+    public LocalDate readLocalDate(String prompt, LocalDate min, LocalDate max) {
+        System.out.println(prompt);
+        String input = myScanner.nextLine();
+        min = LocalDate.MIN;
+        max = LocalDate.MAX;
+        LocalDate dateVal = LocalDate.parse(input);
+
+        while (dateVal.compareTo(min) < -1 || dateVal.compareTo(max)  > 1) {
+            System.out.println(prompt);
+            dateVal = LocalDate.parse(myScanner.nextLine());
+
+        }
+        return dateVal;
+    }
+
 
     @Override
     public String readString(String prompt) {
-         System.out.println(prompt);
-        
-        String input = myScanner.nextLine();
-        
-        return input;
-        
-
-    }
-
-    @Override
-    public BigDecimal readBigDecimal(String prompt) {
         System.out.println(prompt);
-        
-        String input = myScanner.nextLine();
-        //work on try catch block to catch "$"
-        
-        return new BigDecimal(input);//taking string prompt, save that string and than that it will convert to BigDecimal
 
+        String suserInput = myScanner.nextLine();
+
+        return suserInput;
     }
+
 }

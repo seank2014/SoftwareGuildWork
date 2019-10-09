@@ -9,6 +9,11 @@ package vendingmachine.dao;
  *
  * @author seanking
  */
-public class VendingMachineAuditDaoStubImpl {
+public class VendingMachineAuditDaoStubImpl implements VendingMachineAuditDao {
+    
+    @Override
+    public void writeAuditEntry(String entry) throws VendingMachinePersistenceException{
+        
+    }
     
 }

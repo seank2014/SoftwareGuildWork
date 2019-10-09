@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 public class VendingMachineAuditDaoFileImpl implements VendingMachineAuditDao{
     
-    public static final String AUDIT_FILE = "audit.file";
+    public static final String AUDIT_FILE = "audit.txt";
     
     @Override
     public void writeAuditEntry(String entry) throws VendingMachinePersistenceException {

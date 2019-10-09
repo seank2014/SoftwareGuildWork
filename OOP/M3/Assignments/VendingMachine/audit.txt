@@ -1,0 +1,14 @@
+2019-10-09T10:32:00.066 : Pretzel Stick purchased
+2019-10-09T10:32:49.230 : Chips purchased
+2019-10-09T10:44:25.535 : Ice Tea purchased
+2019-10-09T11:50:15.217 : Gummy Bears purchased
+2019-10-09T15:13:09.464 : Ritz purchased
+2019-10-09T17:37:51.579 : Ritz purchased
+2019-10-09T17:39:20.110 : Ritz purchased
+2019-10-09T17:40:02.707 : Soda purchased
+2019-10-09T17:40:35.175 : Ritz purchased
+2019-10-09T17:41:08.958 : Snickers purchased
+2019-10-09T17:43:52.528 : Ritz purchased
+2019-10-09T17:44:38.778 : Snickers purchased
+2019-10-09T17:45:19.969 : Soda purchased
+2019-10-09T17:45:59.116 : Snickers purchased
